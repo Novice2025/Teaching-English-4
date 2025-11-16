@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lego-Chain English | Correção de Bra-glish</title>
+    <!-- Load Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Lucide Icons via CDN -->
+    <script type="module">
+        import { createIcons, Zap, CheckCircle, XCircle, ArrowRight, UserCheck, Blocks } from 'https://unpkg.com/lucide@latest/dist/esm/lucide.js';
+        window.lucide = { createIcons, Zap, CheckCircle, XCircle, ArrowRight, UserCheck, Blocks };
+    </script>
+    <style>
+        @import url('https://fonts.com/css2?family=Inter:wght@100..900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f9fafb; /* bg-gray-50 */
+        }
+        .block-chain-container {
+            scroll-margin-top: 8rem; /* Para o scroll se ajustar ao cabeçalho fixo */
+        }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <div id="app">
+        <!-- Conteúdo será renderizado aqui -->
+    </div>
+
+    <script>
+        // --- DATA: LESSON BLOCKS (O NOSSO "BLOCK CHAIN") ---
+        // Novo conjunto de lições baseado nas sentenças 71 a 99.
+        const lessonBlocks = [
+          {
+            title: "Bloco 9: Comunicação, Relações e Suborno",
+            concepts: [
+              {
+                english: "Don't try to bribe me. / Don't try to buy me off.",
+                portuguese: "Não tente me comprar com seu dinheiro.",
+                culturalNote: "Usar 'buy me' é literal. O termo correto para tentar influenciar alguém com dinheiro (ou favores) é **'bribe'** (subornar) ou o idiomático **'buy off'**.",
+              },
+              {
+                english: "Don't waste my time. / Stop wasting my time.",
+                portuguese: "Não tente comprar meu tempo / Não perca meu tempo.",
+                culturalNote: "A construção 'lose my time' é 'Bra-glish'. O verbo correto é **'waste'** (desperdiçar). Ex: 'I don't want to waste your time.'",
+              },
+              {
+                english: "Do you believe that? / Are you buying it?",
+                portuguese: "Você aceita / acredita nisso?",
+                culturalNote: "O uso do verbo **'buy'** (comprar) como gíria para **'believe'** (acreditar) está correto ('Are you buying that story?'), mas é informal. Para contextos formais, use 'Do you believe that?'.",
+              },
+              {
+                english: "I can't speak highly of him.",
+                portuguese: "Não posso falar muito bem dele.",
+                culturalNote: "É um erro comum de Adjetivo vs. Advérbio. Use o advérbio **'highly'** (elevadamente, muito bem) em vez de 'high'.",
+              },
+              {
+                english: "Our relationship is a house of cards.",
+                portuguese: "Nossa relação é um castelo de cartas.",
+                culturalNote: "**'Relation'** refere-se a uma conexão formal (e.g., family relation, trade relation). **'Relationship'** é para vínculos pessoais ou emocionais.",
+              }
+            ],
+            quiz: {
+              question: "Qual palavra corrige o erro em: 'She speaks English very *high*?'",
+              options: [
+                { text: "highly", correct: true },
+                { text: "highness", correct: false, explanation: "'Highness' significa 'alteza'." },
+                { text: "above", correct: false, explanation: "Above é 'acima' (preposição), não se encaixa neste contexto." }
+              ],
+              tip: "O verbo 'speak' precisa de um advérbio para modificar a maneira, por isso use 'highly'."
+            }
+          },
+          {
+            title: "Bloco 10: Gramática, Idiomas e Ambiente de Trabalho",
+            concepts: [
+              {
+                english: "It's full credit to the staff.",
+                portuguese: "São todos os créditos para os funcionários.",
+                culturalNote: "**'Staff'** é um substantivo coletivo e, portanto, singular (como 'team' ou 'police'). Não se usa 'staffs' ou 'full credits'. O correto é **'full credit to the staff'**.",
+              },
+              {
+                english: "I am armed to the teeth. (OR: I will fight tooth and nail.)",
+                portuguese: "Estou armado até os dentes (ou com unhas e dentes).",
+                culturalNote: "Houve uma confusão de idiomas. O correto para 'estar muito armado' é **'armed to the teeth'**. **'Tooth and nail'** significa 'lutar ferozmente' ('fight tooth and nail').",
+              },
+              {
+                english: "To dance to the rhythm.",
+                portuguese: "Dançar no ritmo.",
+                culturalNote: "A preposição correta para seguir um padrão musical é **'to'**. Ex: 'We danced to the sound of the band.'",
+              },
+              {
+                english: "I am thirsty, I will quench my thirst.",
+                portuguese: "Estou com sede, vou saciar minha sede.",
+                culturalNote: "O verbo **'quench'** (saciar) exige o substantivo **'thirst'** (sede), não o adjetivo 'thirsty' (sedento).",
+              },
+              {
+                english: "I am so hungry I could eat a horse.",
+                portuguese: "Estou faminto e posso comer um cavalo.",
+                culturalNote: "O idioma exige o uso do modal **'could'** para indicar uma hipérbole: 'I **could** eat a horse'.",
+              }
+            ],
+            quiz: {
+              question: "Qual frase está correta?",
+              options: [
+                { text: "The staffs did a great job.", correct: false, explanation: "'Staff' é coletivo e singular, não se usa 'staffs'." },
+                { text: "The staff did a great job.", correct: true },
+                { text: "The staffs have done a great job.", correct: false, explanation: "Novamente, 'staffs' está incorreto." }
+              ],
+              tip: "Pense em 'staff' como 'equipe'. Você diz 'a equipe fez', não 'as equipes fizeram' (a menos que sejam várias)."
+            }
+          },
+          {
+            title: "Bloco 11: Formalidade, Vícios e Logística",
+            concepts: [
+              {
+                english: "Got a smoke? / Do you have a cigarette?",
+                portuguese: "Você tem um cigarro?",
+                culturalNote: "Embora **'smoke'** possa ser usado informalmente para 'cigarette', o mais direto é **'Do you have a cigarette?'** ou a gíria **'Got a smoke?'**.",
+              },
+              {
+                english: "This was a self-defense measure.",
+                portuguese: "Isto foi uma medida de autodefesa.",
+                culturalNote: "A confusão de singular/plural. **'Measure'** (singular) é a palavra correta se for uma única ação. **'Measures'** (plural) implica várias ações.",
+              },
+              {
+                english: "For security reasons / For security purposes.",
+                portuguese: "Por medidas de segurança.",
+                culturalNote: "A expressão nativa mais comum para justificar algo relacionado à segurança é **'for security reasons'** (por motivos de segurança) ou **'for security purposes'** (para fins de segurança).",
+              },
+              {
+                english: "To have/light up a cigarette.",
+                portuguese: "Para se dar ao luxo de um cigarro.",
+                culturalNote: "O verbo **'indulge'** (Sent. 98) é muito formal e se usa com a preposição 'in' (**'indulge in a cigarette'**). O comum é **'have a cigarette'** ou **'light up a cigarette'**.",
+              },
+              {
+                english: "To fill up my tank.",
+                portuguese: "Para encher meu tanque/reservatório.",
+                culturalNote: "O phrasal verb correto para abastecer ou encher completamente um recipiente (tanque, copo) é **'fill up'**. **'Fill in'** significa preencher um formulário.",
+              }
+            ],
+            quiz: {
+              question: "Se você precisa abastecer o carro, você diz:",
+              options: [
+                { text: "I need to fill in my gas tank.", correct: false, explanation: "Fill in é para formulários." },
+                { text: "I need to fill up my gas tank.", correct: true },
+                { text: "I need to fill my gas tank inside.", correct: false, explanation: "A preposição 'up' é parte do phrasal verb para encher." }
+              ],
+              tip: "**Fill up** é para encher; **Fill in** é para preencher."
+            }
+          }
+        ];
+
+        // --- GLOBAL STATE ---
+        let currentBlockIndex = 0;
+        let quizStates = lessonBlocks.map(() => ({
+            answered: false,
+            correct: null,
+            selectedOption: null,
+        }));
+
+        // --- UTILITY FUNCTIONS ---
+
+        function getIconSVG(name, classes) {
+            const size = "w-6 h-6";
+            const color = classes;
+            // Uses Lucide icons (pre-loaded in <script type="module">)
+            const icons = {
+                Blocks: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><rect x="2" y="7" width="20" height="15" rx="2"/><path d="M17 2h3a2 2 0 0 1 2 2v3"/><path d="M7 2h3a2 2 0 0 0 2 2v3"/><path d="M10 2v3"/><path d="M7 2v3"/><path d="M17 2v3"/></svg>`,
+                Zap: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+                CheckCircle: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M9 11l3 3L22 4"/></svg>`,
+                XCircle: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>`,
+                ArrowRight: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>`,
+                UserCheck: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="${size} ${color}"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M19 8h6"/><path d="m22 3-6 6"/><circle cx="9" cy="7" r="4"/></svg>`,
+            };
+            return icons[name] || '';
+        }
+
+        function handleAnswer(blockIndex, optionIndex) {
+            const block = lessonBlocks[blockIndex];
+            const option = block.quiz.options[optionIndex];
+            
+            if (quizStates[blockIndex].answered) return;
+
+            const isCorrect = option.correct;
+            quizStates[blockIndex] = {
+                answered: true,
+                correct: isCorrect,
+                selectedOption: option,
+            };
+
+            renderApp(); // Re-render the app to update the block UI
+
+            if (isCorrect) {
+                // Wait 1.5s before moving to the next block
+                setTimeout(() => {
+                    handleBlockCompletion(blockIndex);
+                }, 1500);
+            }
+        }
+
+        function handleBlockCompletion(blockIndex) {
+            if (blockIndex === currentBlockIndex && quizStates[blockIndex].correct) {
+                currentBlockIndex++;
+                renderApp(); // Re-render the app to highlight the next block and scroll
+
+                // Scroll to the new active block
+                const activeBlockElement = document.getElementById(`block-${currentBlockIndex}`);
+                if (activeBlockElement) {
+                    activeBlockElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }
+
+        // --- RENDER FUNCTIONS ---
+
+        function renderBlock(block, index) {
+            const isActive = index === currentBlockIndex;
+            const state = quizStates[index];
+            
+            const IconName = state.correct === true ? 'CheckCircle' : state.correct === false ? 'XCircle' : 'Zap';
+            const iconColor = state.correct === true ? "text-green-500" : state.correct === false ? "text-red-500" : "text-indigo-600";
+            const statusText = state.correct === true ? "Parabéns! Bloco Conectado." : state.correct === false ? "Opa! Reveja a nota cultural." : "Teste seu entendimento";
+
+            let conceptsHtml = block.concepts.map((concept, cIndex) => `
+                <div class="p-4 bg-indigo-50 rounded-lg">
+                    <p class="text-sm font-semibold text-indigo-700">🇧🇷 Português (O que queremos dizer):</p>
+                    <p class="text-xl italic text-gray-700 mb-2">"${concept.portuguese}"</p>
+                    <p class="text-sm font-semibold text-indigo-700">🇬🇧 English (A forma nativa):</p>
+                    <p class="text-2xl font-bold text-gray-900 mb-3">"${concept.english}"</p>
+                    <div class="mt-2 p-3 bg-indigo-100 rounded-md">
+                        <p class="text-sm font-medium text-indigo-900">💡 Raiz do Erro / Lego (O Porquê da Lição):</p>
+                        <p class="text-base text-indigo-900">${concept.culturalNote}</p>
+                    </div>
+                </div>
+            `).join('');
+
+
+            let optionsHtml = block.quiz.options.map((option, oIndex) => {
+                let buttonClass = "bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 focus:ring-indigo-500";
+                let disabled = '';
+
+                if (state.answered) {
+                    disabled = 'disabled';
+                    if (option.correct) {
+                        buttonClass = "bg-green-500 ring-4 ring-green-300 transform scale-105";
+                    } else if (option === state.selectedOption) {
+                        buttonClass = "bg-red-500 ring-4 ring-red-300 transform scale-105";
+                    } else {
+                        buttonClass = "bg-gray-400 cursor-not-allowed";
+                    }
+                }
+                
+                return `
+                    <button
+                        onclick="handleAnswer(${index}, ${oIndex})"
+                        ${disabled}
+                        class="p-4 text-white font-semibold rounded-xl transition duration-300 shadow-md transform hover:shadow-lg ${buttonClass} ${state.answered && !option.correct ? 'hover:shadow-none' : ''}"
+                    >
+                        ${option.text}
+                    </button>
+                `;
+            }).join('');
+
+            let quizFeedbackHtml = '';
+            if (state.answered) {
+                const feedbackClass = state.correct ? 'bg-green-100 border-2 border-green-500' : 'bg-red-100 border-2 border-red-500';
+                const feedbackTitleClass = state.correct ? 'text-green-800' : 'text-red-800';
+                const feedbackTitle = state.correct ? "Correto!" : "Incorreto!";
+                
+                let explanation = '';
+                if (!state.correct) {
+                    // Find the explanation for the selected incorrect option
+                    const selectedOptionData = block.quiz.options.find(opt => opt.text === state.selectedOption.text);
+                    const explanationText = selectedOptionData ? selectedOptionData.explanation : "Reveja a nota cultural acima.";
+                    
+                    explanation = `
+                        <p class="text-red-700 mt-2">
+                            **Revisão:** ${explanationText}
+                        </p>
+                    `;
+                }
+                
+                let nextButton = '';
+                if (state.correct) {
+                    nextButton = `
+                        <button
+                            onclick="handleBlockCompletion(${index})"
+                            class="mt-4 px-4 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 flex items-center transition duration-200"
+                        >
+                            Próximo Bloco ${getIconSVG('ArrowRight', 'w-5 h-5 ml-2')}
+                        </button>
+                    `;
+                }
+
+                quizFeedbackHtml = `
+                    <div class="mt-6 p-4 rounded-xl transition-opacity duration-500 ${feedbackClass}">
+                        <p class="font-bold text-lg ${feedbackTitleClass}">
+                            ${feedbackTitle}
+                        </p>
+                        ${explanation}
+                        <p class="text-gray-700 mt-2">
+                            **Dica do Professor:** ${block.quiz.tip}
+                        </p>
+                        ${nextButton}
+                    </div>
+                `;
+            }
+
+            const blockClass = isActive 
+                ? 'bg-white border-4 border-indigo-300 transform scale-100' 
+                : 'bg-gray-100 opacity-60 pointer-events-none';
+
+            return `
+                <div id="block-${index}" class="block-chain-container p-6 md:p-8 rounded-xl shadow-2xl transition-all duration-500 ${blockClass}">
+                    <h3 class="text-3xl font-extrabold text-gray-900 mb-6 flex items-center">
+                        ${getIconSVG('Blocks', 'w-8 h-8 text-indigo-500 mr-3')} ${block.title}
+                    </h3>
+
+                    <!-- CONCEITOS -->
+                    <div class="space-y-6 mb-8 border-l-4 border-indigo-400 pl-4">
+                        ${conceptsHtml}
+                    </div>
+
+                    <!-- EXERCÍCIO -->
+                    <div class="mt-8 pt-6 border-t border-indigo-200">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                            ${getIconSVG(IconName, `w-6 h-6 mr-2 ${iconColor}`)} ${statusText}
+                        </h4>
+                        
+                        <p class="text-lg font-medium text-gray-700 mb-6">${block.quiz.question}</p>
+
+                        <div class="grid md:grid-cols-3 gap-4">
+                            ${optionsHtml}
+                        </div>
+
+                        ${quizFeedbackHtml}
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderApp() {
+            const container = document.getElementById('app');
+            const isComplete = currentBlockIndex >= lessonBlocks.length;
+            const progressPercent = (currentBlockIndex / lessonBlocks.length) * 100;
+
+            // HEADER
+            const header = `
+                <header class="bg-white shadow-lg sticky top-0 z-10">
+                    <div class="max-w-4xl mx-auto py-4 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+                        <h1 class="text-3xl font-extrabold text-indigo-700 flex items-center">
+                            ${getIconSVG('Blocks', 'w-8 h-8 mr-2 text-indigo-500')}
+                            Lego-Chain English
+                        </h1>
+                        <div class="flex items-center space-x-2">
+                            ${getIconSVG('UserCheck', 'w-5 h-5 text-gray-500')}
+                            <span class="text-sm font-medium text-gray-600">By Daby @2025</span>
+                        </div>
+                    </div>
+                </header>
+            `;
+            
+            // MAIN CONTENT START
+            let mainContent = `
+                <main class="max-w-4xl mx-auto py-10 px-4 sm:px-6 lg:px-8">
+                    
+                    <!-- BOAS-VINDAS -->
+                    <div class="bg-indigo-600 p-6 sm:p-8 rounded-2xl shadow-xl text-white mb-10">
+                        <h2 class="text-3xl font-bold mb-3">Bem-vindo(a) à sua jornada de inglês!</h2>
+                        <p class="text-lg opacity-90">
+                            O objetivo deste curso é consertar o **"Bra-glish"**, a tradução literal que nos impede de soar nativos. Estes blocos cobrem novas lições focando em vícios de linguagem comuns (Sentenças 71-99).
+                        </p>
+                        <div class="mt-4">
+                            <p class="text-base font-semibold">Progresso Atual:</p>
+                            <div class="w-full bg-indigo-500 rounded-full h-2.5 mt-1">
+                                <div 
+                                    class="bg-lime-300 h-2.5 rounded-full transition-all duration-700" 
+                                    style="width: ${progressPercent}%"
+                                    role="progressbar"
+                                    aria-valuenow="${progressPercent}"
+                                    aria-valuemin="0"
+                                    aria-valuemax="100"
+                                ></div>
+                            </div>
+                            <p class="text-sm mt-1">${currentBlockIndex} de ${lessonBlocks.length} Blocos Conectados</p>
+                        </div>
+                    </div>
+
+                    <!-- BLOCKS CONTAINER -->
+                    <div class="space-y-8">
+            `;
+
+            // BLOCKS RENDERING
+            mainContent += lessonBlocks.map((block, index) => {
+                const blockHtml = renderBlock(block, index);
+                
+                let connectionLine = '';
+                if (index > 0) {
+                    const lineColor = index <= currentBlockIndex ? 'bg-lime-500' : 'bg-gray-300';
+                    connectionLine = `
+                        <div class="absolute -top-4 left-1/2 -ml-0.5 w-1 h-8 ${lineColor} transition-colors duration-500"></div>
+                    `;
+                }
+
+                let completionIndicator = '';
+                 if (index < lessonBlocks.length - 1) {
+                    const indicatorClass = index < currentBlockIndex ? 'scale-100 opacity-100' : 'scale-0 opacity-0';
+                    completionIndicator = `
+                        <div class="flex justify-center -mb-4 mt-4 transition-transform duration-500 ${indicatorClass}">
+                            ${getIconSVG('CheckCircle', 'w-6 h-6 text-lime-500 bg-white rounded-full z-[1]')}
+                        </div>
+                    `;
+                }
+
+
+                return `
+                    <div key="${index}" id="block-container-${index}" class="relative">
+                        ${connectionLine}
+                        ${blockHtml}
+                        ${completionIndicator}
+                    </div>
+                `;
+            }).join('');
+
+            mainContent += '</div>'; // close space-y-8 container
+
+            // CONCLUSÃO
+            if (isComplete) {
+                mainContent += `
+                    <div class="mt-12 p-8 bg-lime-500 rounded-2xl shadow-xl text-white text-center">
+                        ${getIconSVG('CheckCircle', 'w-12 h-12 mx-auto mb-4')}
+                        <h3 class="text-3xl font-bold mb-2">Jornada Concluída!</h3>
+                        <p class="text-xl">
+                            Parabéns! Você conectou todos os Blocos de Conhecimento. Seu Block Chain de inglês está **sólido** e livre de 'Bra-glish'!
+                        </p>
+                        <p class="mt-4 text-base">
+                            A repetição é a chave. Revise os blocos e continue construindo.
+                        </p>
+                    </div>
+                `;
+            }
+
+            // FOOTER
+            mainContent += `
+                <footer class="mt-16 text-center text-sm text-gray-500 border-t pt-8">
+                    <p>&copy; By Daby @2025. Lego-Chain Method. Aprender é construir.</p>
+                </footer>
+            `;
+
+            mainContent += '</main>'; // close main
+
+            container.innerHTML = header + mainContent;
+        }
+
+        // Initialize the app on window load
+        window.onload = function() {
+            renderApp();
+        };
+
+        // Expose handleAnswer and handleBlockCompletion globally for button click handlers
+        window.handleAnswer = handleAnswer;
+        window.handleBlockCompletion = handleBlockCompletion;
+        
+    </script>
+</body>
+</html>
